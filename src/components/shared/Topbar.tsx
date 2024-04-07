@@ -1,22 +1,28 @@
-import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from "../ui/button";
-import { useUserContext } from "@/context/AuthContext";
 import { useSignOutAccount } from "@/lib/react-query/queries";
+import { useUserContext, INITIAL_USER } from "@/context/AuthContext";
 
 const Topbar = () => {
   const navigate = useNavigate();
-  const { user } = useUserContext();
-  const { mutate: signOut, isSuccess } = useSignOutAccount();
+  const { user, setUser, setIsAuthenticated} = useUserContext();
 
-  useEffect(() => {
-    if (isSuccess) navigate(0);
-  }, [isSuccess]);
+  const { mutate: signOut } = useSignOutAccount();
+
+  const handleSignOut = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    signOut();
+    setIsAuthenticated(false);
+    setUser(INITIAL_USER);
+    navigate("/sign-in");
+  };
 
   return (
     <section className="topbar">
-      <div className="flex-between py-4 px-5">
+      <div className="flex-between py-4 px-4">
         <Link to="/" className="flex gap-3 items-center">
           <img src="/assets/images/LoopLink1.png" alt="logo"
             width={130}
@@ -24,7 +30,7 @@ const Topbar = () => {
           />
         </Link>
 
-        <div className="flex gap-4">
+        <div className="flex gap-2">
           <Button
             variant="ghost"
             className="shad-button_ghost"
@@ -42,10 +48,10 @@ const Topbar = () => {
           <Button
             variant="ghost"
             className="shad-button_ghost"
-            onClick={() => signOut()}>
+            onClick={(e) => handleSignOut(e)}>
             <img src="/assets/icons/logout.svg" alt="logout" />
           </Button>
-          <Link to={`/profile/${user.id}`} className="flex-center gap-3">
+          <Link to={`/profile/${user.id}`} className="flex-center gap-3 px-1">
             <img
               src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
               alt="profile"
