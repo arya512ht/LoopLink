@@ -18,13 +18,27 @@ const Topbar = () => {
     <section className="topbar">
       <div className="flex-between py-4 px-5">
         <Link to="/" className="flex gap-3 items-center">
-        <img src="/assets/images/LoopLink1.png" alt="logo"
+          <img src="/assets/images/LoopLink1.png" alt="logo"
             width={130}
             height={325}
           />
         </Link>
 
         <div className="flex gap-4">
+          <Button
+            variant="ghost"
+            className="shad-button_ghost"
+          // onClick={() => signOut()}
+          >
+            <img src="/assets/icons/message-icon-violet.png" alt="Message" width={30} />
+          </Button>
+          <Button
+            variant="ghost"
+            className="shad-button_ghost"
+            // onClick={() => signOut()}
+            >
+            <img src="/assets/icons/song-icon-violet.png" alt="Song" width={30}/>
+          </Button>
           <Button
             variant="ghost"
             className="shad-button_ghost"
