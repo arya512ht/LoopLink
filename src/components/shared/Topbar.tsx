@@ -22,7 +22,7 @@ const Topbar = () => {
 
   return (
     <section className="topbar">
-      <div className="flex-between py-4 px-4">
+      <div className="flex-between py-4 px-3">
         <Link to="/" className="flex gap-3 items-center">
           <img src="/assets/images/LoopLink1.png" alt="logo"
             width={130}
@@ -51,7 +51,7 @@ const Topbar = () => {
             onClick={(e) => handleSignOut(e)}>
             <img src="/assets/icons/logout.svg" alt="logout" />
           </Button>
-          <Link to={`/profile/${user.id}`} className="flex-center gap-3 px-1">
+          <Link to={`/profile/${user.id}`} className="flex-center gap-3 px-2">
             <img
               src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
               alt="profile"
