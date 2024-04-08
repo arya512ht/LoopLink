@@ -163,7 +163,7 @@ const Messenger = () => {
           e.preventDefault();
           // sendingSPlay();
           const data = {
-               senderName: user.userName,
+               senderName: user.username,
                reseverId: currentfriend.id,
                message: newMessage ? newMessage : '❤',
                senderId: user.id
