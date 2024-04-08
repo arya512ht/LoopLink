@@ -12,11 +12,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queries";
 import { SignupValidation } from "@/lib/validation";
 import { useUserContext } from "@/context/AuthContext";
+import { useDispatch } from "react-redux";
+import { userRegister } from "@/_root/pages/chat/store/actions/authAction";
 
 const SignupForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+  const dispatch = useDispatch();
 
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
@@ -35,36 +38,72 @@ const SignupForm = () => {
   // Handler
   const handleSignup = async (user: z.infer<typeof SignupValidation>) => {
     try {
-      const newUser = await createUserAccount(user);
+      const newUser:any = await createUserAccount(user);
+
+      console.log(newUser)
 
       if (!newUser) {
         toast({ title: "Sign up failed. Please try again.", });
-        
+
         return;
       }
 
-      const session = await signInAccount({
+      const data = {
+        "userName": user.username,
+        "password": user.password,
+        "email": user.email,
+        "image": newUser.imageUrl,
+        "id": newUser.$id
+      }
+
+
+      await signInAccount({
         email: user.email,
         password: user.password,
-      });
+      }).then(()=>dispatch(userRegister(data))).catch(()=>{toast({ title: "Something went wrong. Please login your new account", });
 
-      if (!session) {
-        toast({ title: "Something went wrong. Please login your new account", });
-        
-        navigate("/sign-in");
-        
-        return;
-      }
+      navigate("/sign-in");});
+
+      // if (!session) {
+      //   toast({ title: "Something went wrong. Please login your new account", });
+
+      //   navigate("/sign-in");
+
+      //   return;
+      // }
 
       const isLoggedIn = await checkAuthUser();
 
       if (isLoggedIn) {
         form.reset();
 
+        const data = {
+          "userName": user.username,
+          "password": user.password,
+          "email": user.email,
+          "image": newUser.imageUrl,
+          "id": newUser.$id
+        }
+
+        // console.log(user)
+
+        // const response = await axios.post('https://looplink-chat-backend.onrender.com/api/messenger/user-register', data, config);
+        // localStorage.setItem('authToken', response.data.token);
+
+        // dispatch({
+        //   type: REGISTER_SUCCESS,
+        //   payload: {
+        //     successMessage: response.data.successMessage,
+        //     token: response.data.token
+        //   }
+        // })
+
+        dispatch(userRegister(data));  
+
         navigate("/");
       } else {
         toast({ title: "Login failed. Please try again.", });
-        
+
         return;
       }
     } catch (error) {

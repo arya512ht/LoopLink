@@ -96,7 +96,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
       try {
         let formData = new FormData()
         formData.append('file', imageFile)
-        const response = await axios.post("https://looplink-image-generator.linkin.tw/image", formData);
+        const response = await axios.post("http://image-caption.ap-south-1.elasticbeanstalk.com/image", formData);
         setGeneratedCaptions(response.data.captions);
       } catch (error) {
         console.log(error);
@@ -336,4 +336,5 @@ const PostForm = ({ post, action }: PostFormProps) => {
 };
 
 export default PostForm;
+
 

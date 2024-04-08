@@ -1,0 +1,58 @@
+.register {
+    width: 100%;
+    height: 100vh;
+    background-color: azure;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.register .card .card-header h3 {
+    text-align: center;
+    color: #fff;
+}
+.register .card .card-body .form-group .form-control {
+    color: #fff;
+}
+.register .card .card-body .form-group:last-child {
+    margin-bottom: 0px;
+}
+.register .card .card-body .form-group span {
+    text-align: center;
+}
+.register .card .card-body .form-group span a {
+    color: #fff;
+}
+.register .card .card-body .form-group .file-image {
+    display: flex;
+}
+.register .card .card-body .form-group .file-image .image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #c7c3c3;
+    overflow: hidden;
+}
+.register .card .card-body .form-group .file-image .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.register .card .card-body .form-group .file-image .file {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.register .card .card-body .form-group .file-image .file .form-control {
+    display: none;
+}
+.register .card .card-body .form-group .file-image .file label {
+    background-color: #0a0e15 85;
+    padding: 8px;
+    margin-bottom: 0px;
+    width: 120px;
+    text-align: center;
+    border-radius: 50px;
+    margin-left: 10px;
+    cursor: pointer;
+}
