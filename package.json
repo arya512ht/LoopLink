@@ -1,8 +1,9 @@
 {
-  "name": "looplink",
+  "name": "snapgram",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -37,7 +38,22 @@
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^9.0.1",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "icons": "^1.0.0",
+    "jwt-decode": "^3.1.2",
+    "moment": "^2.29.1",
+    "node-sass": "^9.0.0",
+    "react-alert": "^7.0.3",
+    "react-alert-template-basic": "^1.0.2",
+    "react-hot-toast": "^2.2.0",
+    "react-icons": "^4.3.1",
+    "react-redux": "^7.2.6",
+    "react-scripts": "^5.0.1",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1",
+    "socket.io-client": "^4.4.1",
+    "use-sound": "^4.0.1",
+    "web-vitals": "^2.1.4"
   },
   "devDependencies": {
     "@types/node": "^20.8.0",

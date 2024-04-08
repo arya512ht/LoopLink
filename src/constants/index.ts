@@ -24,6 +24,11 @@ export const sidebarLinks = [
     route: "/create-post",
     label: "Create Post",
   },
+  {
+    imgURL: "/assets/icons/message-icon.png",
+    route: "/message",
+    label: "Message",
+  },
 ];
 
 export const bottombarLinks = [
@@ -43,13 +48,13 @@ export const bottombarLinks = [
     label: "Saved",
   },
   {
-    imgURL: "/assets/icons/people.svg",
-    route: "/all-users",
-    label: "People",
-  },
-  {
     imgURL: "/assets/icons/gallery-add.svg",
     route: "/create-post",
     label: "Create",
+  },
+  {
+    imgURL: "/assets/icons/message-icon.png",
+    route: "/message",
+    label: "Message",
   },
 ];

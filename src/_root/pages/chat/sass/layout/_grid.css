@@ -1,0 +1,33 @@
+.row1{
+     display: flex;
+     min-width: 100%;
+
+}
+/* @for $i from 1 through 12{
+     .col-#{$i}{
+          width: 100%/12*$i;
+     }
+} */
+
+.col-3{
+     width: 30%;
+}
+.col-9{
+     width:70%;
+}
+
+@media only screen and (max-width: 850px) {
+     .row1{
+          display: flex;
+          flex-direction: column;
+     }
+     .col-3,.col-9{
+          width: 100%;
+     }
+     .back-arrow{
+          display: block !important;
+     }
+     .col-9{
+          display: none;
+     }
+   }

@@ -75,10 +75,11 @@ const LeftSidebar = () => {
             );
           })}
           <li className="leftsidebar-link">
-            <button className="flex gap-4 items-center p-4">
-              <img src="/assets/icons/message-icon.png" alt="Message" width={30}/>
+            <NavLink to='/message' className="flex gap-4 items-center p-4">
+              <img src="/assets/icons/message-icon.png" alt="Message" width={30} className={`group-hover:invert-white ${pathname === '/message' && "invert-white"
+                      }`}/>
               Message
-            </button>
+            </NavLink>
           </li>
           <li className="leftsidebar-link">
             <button className="flex gap-4 items-center p-4">

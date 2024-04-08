@@ -1,13 +1,18 @@
 import { ID, Query } from "appwrite";
-
+import { useDispatch } from 'react-redux';
+import { userRegister } from '@/_root/pages/chat/store/actions/authAction';
 import { appwriteConfig, account, databases, storage, avatars } from "./config";
 import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "@/types";
+import axios from "axios";
 
 // ============================================================
 // AUTH
 // ============================================================
 
 // ============================== SIGN UP
+
+// const dispatch = useDispatch();
+
 export async function createUserAccount(user: INewUser) {
   try {
     const newAccount = await account.create(
@@ -28,6 +33,23 @@ export async function createUserAccount(user: INewUser) {
       username: user.username,
       imageUrl: avatarUrl,
     });
+
+    console.log(newAccount.$id)
+
+    
+
+    // const response = await axios.post('https://looplink-chat-backend.onrender.com/api/messenger/user-register', data);
+
+    // console.log(response);
+    // const formData = new FormData();
+
+    // formData.append('userName',user.username);
+    // formData.append('email',newAccount.email);
+    // formData.append('password',user.password);
+    // formData.append('image',avatarUrl);
+    // formData.append('image',data);
+    // dispatch(userRegister(data));  
+    
 
     return newUser;
   } catch (error) {
