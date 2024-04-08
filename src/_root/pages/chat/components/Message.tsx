@@ -1,10 +1,10 @@
 import moment from 'moment';
 import  { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useUserContext } from "@/context/AuthContext";;
 import { FaRegCheckCircle } from "react-icons/fa";
 
 const Message = ({ message, currentfriend, scrollRef, typingMessage }:any) => {
-     const { myInfo } = useSelector((state:any) => state.auth);
+     // const { myInfo } = useSelector((state:any) => state.auth);
 
      const [currentfriendimage, setcurrentfriendimage] = useState()
      const [msg] = useState(message);
@@ -13,7 +13,7 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }:any) => {
           setcurrentfriendimage(currentfriend.image)
      }, [currentfriend])
      
-
+     const { user }:any = useUserContext();
      // console.log(myInfo)
      return (
           <>
@@ -21,14 +21,14 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }:any) => {
                     {
                          message && message.length > 0 ? message.map((m:any, index:any) =>
                          
-                              m.senderId === myInfo.id ?
+                              m.senderId === user.id ?
                                    <div ref={scrollRef} className='my-message' key={index}>
                                         <div className='image-message'>
                                              <div className='my-text'>
                                                   <p className='message-text'> {m.message.text === '' ? <img src={m.message.image} /> : m.message.text} </p>
 
                                                   {
-                                                       index === msg.length - 1 && m.senderId === myInfo.id ? m.status === 'seen' ? <img className='img' src={currentfriendimage} alt='' /> : m.status === 'delivared' ? <span> <FaRegCheckCircle /> </span> : <span> <FaRegCheckCircle /> </span> : ''
+                                                       index === msg.length - 1 && m.senderId === user.id ? m.status === 'seen' ? <img className='img' src={currentfriendimage} alt='' /> : m.status === 'delivared' ? <span> <FaRegCheckCircle /> </span> : <span> <FaRegCheckCircle /> </span> : ''
                                                   }
 
 

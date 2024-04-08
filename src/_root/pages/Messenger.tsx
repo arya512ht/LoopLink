@@ -8,25 +8,25 @@ import { getFriends, messageSend, getMessage, ImageMessageSend, seenMessage, upd
 
 import toast, { Toaster } from 'react-hot-toast';
 import { io } from 'socket.io-client';
-// import useSound from 'use-sound';
 // @ts-ignore
 import useSound from 'use-sound';
+import { useUserContext } from "@/context/AuthContext";;
 // const notificationSound = require('./chat/audio/notification.mp3');
 // const sendingSound = require('./chat/audio/sending.mp3');
 
 const Messenger = () => {
 
-     // const [notificationSPlay] = useSound(notificationSound);
-     // const [sendingSPlay] = useSound(sendingSound);
      const [imageURL, setimageURL] = useState();
+
+     const { user }:any = useUserContext();
 
      const scrollRef:any = useRef();
      const socket:any = useRef() ;
 
 
      const { friends, message, mesageSendSuccess, message_get_success, new_user_add } = useSelector((state:any) => state.messenger);
-     const { myInfo } = useSelector((state:any) => state.auth);
-     console.log(myInfo)
+     // const { user } = useSelector((state:any) => state.auth);
+     console.log(user)
 
      const [currentfriend, setCurrentFriend] = useState<any>('');
      const [newMessage, setNewMessage] = useState('');
@@ -36,10 +36,10 @@ const Messenger = () => {
      const [typingMessage, setTypingMessage] = useState('');
 
      useEffect(() => {
-          setimageURL(myInfo.image);
+          setimageURL(user.imageUrl);
 
           
-     }, [myInfo])
+     }, [user])
 
      useEffect(() => {
           socket.current = io('https://looplink-chat-socket.onrender.com') ;
@@ -81,7 +81,7 @@ const Messenger = () => {
 
      useEffect(() => {
           if (socketMessage && currentfriend) {
-               if (socketMessage.senderId === currentfriend.id && socketMessage.reseverId === myInfo.id) {
+               if (socketMessage.senderId === currentfriend.id && socketMessage.reseverId === user.id) {
                     dispatch({
                          type: 'SOCKET_MESSAGE',
                          payload: {
@@ -105,13 +105,13 @@ const Messenger = () => {
 
 
      useEffect(() => {
-          socket.current.emit('addUser', myInfo.id, myInfo)
+          socket.current.emit('addUser', user.id, user)
 
      }, []);
 
      useEffect(() => {
           socket.current.on('getUser', (users:any) => {
-               const filterUser = users.filter((u:any) => u.userId !== myInfo.id)
+               const filterUser = users.filter((u:any) => u.userId !== user.id)
                setActiveUser(filterUser);
           })
 
@@ -129,7 +129,7 @@ const Messenger = () => {
      }, []);
 
      useEffect(() => {
-          if (socketMessage && socketMessage.senderId !== currentfriend.id && socketMessage.reseverId === myInfo.id) {
+          if (socketMessage && socketMessage.senderId !== currentfriend.id && socketMessage.reseverId === user.id) {
                // notificationSPlay();
                toast.success(`${socketMessage.senderName} Send a New Message`)
                dispatch(updateMessage(socketMessage));
@@ -152,7 +152,7 @@ const Messenger = () => {
           setNewMessage(e.target.value);
 
           socket.current.emit('typingMessage', {
-               senderId: myInfo.id,
+               senderId: user.id,
                reseverId: currentfriend.id,
                msg: e.target.value
           })
@@ -163,15 +163,15 @@ const Messenger = () => {
           e.preventDefault();
           // sendingSPlay();
           const data = {
-               senderName: myInfo.userName,
+               senderName: user.userName,
                reseverId: currentfriend.id,
                message: newMessage ? newMessage : '❤',
-               senderId: myInfo.id
+               senderId: user.id
           }
 
 
           socket.current.emit('typingMessage', {
-               senderId: myInfo.id,
+               senderId: user.id,
                reseverId: currentfriend.id,
                msg: ''
           })
@@ -204,7 +204,7 @@ const Messenger = () => {
 
      const dispatch = useDispatch();
      useEffect(() => {
-          dispatch(getFriends(myInfo.id));
+          dispatch(getFriends(user.id));
           dispatch({ type: 'NEW_USER_ADD_CLEAR' })
      }, [new_user_add]);
 
@@ -218,7 +218,7 @@ const Messenger = () => {
      useEffect(() => {
           console.log("getmessage")
           if (friends.length > 0) {
-               dispatch(getMessage({ fdId: currentfriend?.id, myId: myInfo.id }));
+               dispatch(getMessage({ fdId: currentfriend?.id, myId: user.id }));
 
           }
      }, [currentfriend?.id]);
@@ -226,14 +226,14 @@ const Messenger = () => {
 
      useEffect(() => {
           if (message.length > 0) {
-               if (message[message.length - 1].senderId !== myInfo.id && message[message.length - 1].status !== 'seen') {
+               if (message[message.length - 1].senderId !== user.id && message[message.length - 1].status !== 'seen') {
                     dispatch({
                          type: 'UPDATE',
                          payload: {
                               id: currentfriend.id
                          }
                     })
-                    socket.current.emit('seen', { senderId: currentfriend.id, reseverId: myInfo.id })
+                    socket.current.emit('seen', { senderId: currentfriend.id, reseverId: user.id })
                     dispatch(seenMessage({ id: message[message.length - 1].id }))
                }
           }
@@ -253,7 +253,7 @@ const Messenger = () => {
      const emojiSend = (emu:any) => {
           setNewMessage(`${newMessage}` + emu);
           socket.current.emit('typingMessage', {
-               senderId: myInfo.id,
+               senderId: user.id,
                reseverId: currentfriend.id,
                msg: emu
           })
@@ -267,8 +267,8 @@ const Messenger = () => {
                const newImageName = Date.now() + imagename;
 
                socket.current.emit('sendMessage', {
-                    senderId: myInfo.id,
-                    senderName: myInfo.userName,
+                    senderId: user.id,
+                    senderName: user.userName,
                     reseverId: currentfriend.id,
                     time: new Date(),
                     message: {
@@ -279,8 +279,8 @@ const Messenger = () => {
 
                const formData = new FormData();
 
-               formData.append('senderName', myInfo.userName);
-               formData.append('senderId', myInfo.id);
+               formData.append('senderName', user.userName);
+               formData.append('senderId', user.id);
                formData.append('imageName', newImageName);
                formData.append('reseverId', currentfriend.id);
                formData.append('image', e.target.files[0]);
@@ -294,7 +294,7 @@ const Messenger = () => {
 
      // const logout = () => {
      //      dispatch(userLogout());
-     //      socket.current.emit('logout', myInfo.id);
+     //      socket.current.emit('logout', user.id);
      // }
 
      useEffect(() => {
@@ -340,7 +340,7 @@ const Messenger = () => {
 
                                         </div>
                                         <div className='name'>
-                                             <h3>{myInfo.userName} </h3>
+                                             <h3>{user.userName} </h3>
                                         </div>
                                    </div>
 
@@ -364,7 +364,7 @@ const Messenger = () => {
                               <div className='friends'>
                                    {
                                         friends && friends.length > 0 ? friends.map((fd:any) => <div onClick={() => { setCurrentFriend(fd.fndInfo); var div:any = document.querySelector('.col-9'); div.style.display = window.screen.width <= 850 && 'block'; div = document.querySelector('.col-3'); div.style.display = window.screen.width <= 850 && 'none'; }} className={currentfriend.id === fd.fndInfo.id ? 'hover-friend active' : 'hover-friend'}>
-                                             <Friends activeUser={activeUser} myId={myInfo.id} friend={fd} />
+                                             <Friends activeUser={activeUser} myId={user.id} friend={fd} />
                                         </div>) : 'No Friend'
                                    }
 
