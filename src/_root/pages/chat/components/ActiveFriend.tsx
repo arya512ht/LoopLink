@@ -6,13 +6,13 @@ const ActiveFriend = ({user,setCurrentFriend}:any) => {
      const [currentfriendimage,setcurrentfriendimage]=useState()
 
      useEffect(()=>{
-          console.log(user)
-          setcurrentfriendimage(user.userInfo.image)
+          // console.log(user)
+          setcurrentfriendimage(user.userInfo.imageUrl)
      },[user])
 
   return (
        <div onClick={()=> setCurrentFriend({
-          _id : user.userInfo.id,
+          id : user.userInfo.id,
           email: user.userInfo.email,
           image : user.userInfo.image,
           userName : user.userInfo.userName
