@@ -10,8 +10,8 @@ import {
   PostDetails,
   UpdateProfile,
   AllUsers,
+  Messenger
 } from "@/_root/pages";
-import  Messenger  from "@/_root/pages/Messenger";
 import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
 import SignupForm from "@/_auth/forms/SignupForm";
@@ -19,17 +19,6 @@ import SigninForm from "@/_auth/forms/SigninForm";
 import { Toaster } from "@/components/ui/toaster";
 
 import "./globals.css";
-// import './_root/pages/chat/sass/layout/grid';
-// import './_root/pages/chat/sass/base/reset';
-// import './_root/pages/chat/sass/components/register';
-// import './_root/pages/chat/sass/utils/utils';
-// import './_root/pages/chat/sass/components/messenger';
-// import './_root/pages/chat/sass/components/activeFriend';
-// import './_root/pages/chat/sass/components/friends';
-// import './_root/pages/chat/sass/components/rightSide';
-// import './_root/pages/chat/sass/components/message';
-// import './_root/pages/chat/sass/components/messageSend';
-// import './_root/pages/chat/sass/components/friendInfo';
 import './_root/pages/chat/sass/layout/_grid.css';
 import './_root/pages/chat/sass/base/_reset.css';
 import './_root/pages/chat/sass/components/_register.css';
