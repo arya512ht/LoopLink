@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import {   FaSistrix } from "react-icons/fa";
+import { FaSistrix } from "react-icons/fa";
 import ActiveFriend from './chat/components/ActiveFriend';
 import Friends from './chat/components/Friends';
 import RightSide from './chat/components/RightSide';
@@ -18,15 +18,15 @@ const Messenger = () => {
 
      const [imageURL, setimageURL] = useState();
 
-     const { user }:any = useUserContext();
+     const { user }: any = useUserContext();
 
-     const scrollRef:any = useRef();
-     const socket:any = useRef() ;
+     const scrollRef: any = useRef();
+     const socket: any = useRef();
 
 
-     const { friends, message, mesageSendSuccess, message_get_success, new_user_add } = useSelector((state:any) => state.messenger);
+     const { friends, message, mesageSendSuccess, message_get_success, new_user_add } = useSelector((state: any) => state.messenger);
      // const { user } = useSelector((state:any) => state.auth);
-     console.log(user)
+     // console.log(user)
 
      const [currentfriend, setCurrentFriend] = useState<any>('');
      const [newMessage, setNewMessage] = useState('');
@@ -38,20 +38,20 @@ const Messenger = () => {
      useEffect(() => {
           setimageURL(user.imageUrl);
 
-          
+
      }, [user])
 
      useEffect(() => {
-          socket.current = io('https://looplink-chat-socket.onrender.com') ;
-          socket.current.on('getMessage', (data:any) => {
+          socket.current = io('https://looplink-chat-socket.onrender.com');
+          socket.current.on('getMessage', (data: any) => {
                setSocketMessage(data);
           })
 
-          socket.current.on('typingMessageGet', (data:any) => {
+          socket.current.on('typingMessageGet', (data: any) => {
                setTypingMessage(data);
           })
 
-          socket.current.on('msgSeenResponse', (msg:any) => {
+          socket.current.on('msgSeenResponse', (msg: any) => {
                dispatch({
                     type: 'SEEN_MESSAGE',
                     payload: {
@@ -60,7 +60,7 @@ const Messenger = () => {
                })
           })
 
-          socket.current.on('msgDelivaredResponse', (msg:any) => {
+          socket.current.on('msgDelivaredResponse', (msg: any) => {
                dispatch({
                     type: 'DELIVARED_MESSAGE',
                     payload: {
@@ -69,7 +69,7 @@ const Messenger = () => {
                })
           })
 
-          socket.current.on('seenSuccess', (data:any) => {
+          socket.current.on('seenSuccess', (data: any) => {
                dispatch({
                     type: 'SEEN_ALL',
                     payload: data
@@ -110,12 +110,12 @@ const Messenger = () => {
      }, []);
 
      useEffect(() => {
-          socket.current.on('getUser', (users:any) => {
-               const filterUser = users.filter((u:any) => u.userId !== user.id)
+          socket.current.on('getUser', (users: any) => {
+               const filterUser = users.filter((u: any) => u.userId !== user.id)
                setActiveUser(filterUser);
           })
 
-          socket.current.on('new_user_add', (data:any) => {
+          socket.current.on('new_user_add', (data: any) => {
                dispatch({
                     type: 'NEW_USER_ADD',
                     payload: {
@@ -148,9 +148,9 @@ const Messenger = () => {
 
 
 
-     const inputHendle = (e:any) => {
+     const inputHendle = (e: any) => {
           setNewMessage(e.target.value);
-
+          console.log(user)
           socket.current.emit('typingMessage', {
                senderId: user.id,
                reseverId: currentfriend.id,
@@ -159,7 +159,7 @@ const Messenger = () => {
 
      }
 
-     const sendMessage = (e:any) => {
+     const sendMessage = (e: any) => {
           e.preventDefault();
           // sendingSPlay();
           const data = {
@@ -204,9 +204,10 @@ const Messenger = () => {
 
      const dispatch = useDispatch();
      useEffect(() => {
+          // console.log("friends = ",user)
           dispatch(getFriends(user.id));
           dispatch({ type: 'NEW_USER_ADD_CLEAR' })
-     }, [new_user_add]);
+     }, [new_user_add, user]);
 
      useEffect(() => {
           if (friends && friends.length > 0)
@@ -216,12 +217,13 @@ const Messenger = () => {
 
 
      useEffect(() => {
-          console.log("getmessage")
+          // console.log("getmessage")
           if (friends.length > 0) {
+               // console.log(user)
                dispatch(getMessage({ fdId: currentfriend?.id, myId: user.id }));
 
           }
-     }, [currentfriend?.id]);
+     }, [currentfriend?.id, user]);
 
 
      useEffect(() => {
@@ -250,7 +252,7 @@ const Messenger = () => {
      }, [message]);
 
 
-     const emojiSend = (emu:any) => {
+     const emojiSend = (emu: any) => {
           setNewMessage(`${newMessage}` + emu);
           socket.current.emit('typingMessage', {
                senderId: user.id,
@@ -259,7 +261,7 @@ const Messenger = () => {
           })
      }
 
-     const ImageSend = (e:any) => {
+     const ImageSend = (e: any) => {
 
           if (e.target.files.length !== 0) {
                // sendingSPlay();
@@ -301,10 +303,10 @@ const Messenger = () => {
           dispatch(getTheme());
      }, []);
 
-     const search = (e:any) => {
+     const search = (e: any) => {
 
-          const getFriendClass:any = document.getElementsByClassName('hover-friend');
-          const frienNameClass:any = document.getElementsByClassName('Fd_name');
+          const getFriendClass: any = document.getElementsByClassName('hover-friend');
+          const frienNameClass: any = document.getElementsByClassName('Fd_name');
           for (var i = 0; i < getFriendClass.length, i < frienNameClass.length; i++) {
                let text = frienNameClass[i].innerText.toLowerCase();
                if (text.indexOf(e.target.value.toLowerCase()) > -1) {
@@ -340,11 +342,11 @@ const Messenger = () => {
 
                                         </div>
                                         <div className='name'>
-                                             <h3>{user.userName} </h3>
+                                             <h3>{user.username} </h3>
                                         </div>
                                    </div>
 
-                                   
+
                               </div>
 
                               <div className='friend-search'>
@@ -363,7 +365,7 @@ const Messenger = () => {
 
                               <div className='friends'>
                                    {
-                                        friends && friends.length > 0 ? friends.map((fd:any) => <div onClick={() => { setCurrentFriend(fd.fndInfo); var div:any = document.querySelector('.col-9'); div.style.display = window.screen.width <= 850 && 'block'; div = document.querySelector('.col-3'); div.style.display = window.screen.width <= 850 && 'none'; }} className={currentfriend.id === fd.fndInfo.id ? 'hover-friend active' : 'hover-friend'}>
+                                        friends && friends.length > 0 ? friends.map((fd: any) => <div onClick={() => { setCurrentFriend(fd.fndInfo); var div1: any = document.querySelector('.col-9'); div1.style.display = window.screen.width <= 850 && 'block'; var div2: any = document.querySelector('.col-3'); div2.style.display = window.screen.width <= 850 && 'none'; }} className={currentfriend.id === fd.fndInfo.id ? 'hover-friend active' : 'hover-friend'}>
                                              <Friends activeUser={activeUser} myId={user.id} friend={fd} />
                                         </div>) : 'No Friend'
                                    }

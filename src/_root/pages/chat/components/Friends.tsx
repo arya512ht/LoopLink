@@ -10,7 +10,7 @@ const Friends = (props:any) => {
 
      useEffect(() => {
           setimage(fndInfo.image)
-     }, [])
+     }, [fndInfo])
 
      return (
           <div className='friend'>
