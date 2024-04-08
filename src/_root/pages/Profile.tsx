@@ -29,7 +29,7 @@ const Profile = () => {
   const { id } = useParams();
   const { user } = useUserContext();
   const { pathname } = useLocation();
-
+  console.log(user)
   const { data: currentUser } = useGetUserById(id || "");
 
   if (!currentUser)
