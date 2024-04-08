@@ -22,7 +22,7 @@ const RightSide = (props:any) => {
                               <div className='message-send-show'>
                                    <div className='header'>
                                         <div className='image-name'>
-                                             <div className='back-arrow' onClick={() => { var div = document.querySelector('.col-9'); div.style.display='none'; document.querySelector('.col-3').style.display='block';}}>
+                                             <div className='back-arrow' onClick={() => { var div:any = document.querySelector('.col-9'); div.style.display='none'; div = document.querySelector('.col-3');div.style.display='block';}}>
                                                   &larr;
                                              </div>
                                              <div className='image'>

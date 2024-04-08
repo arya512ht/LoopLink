@@ -1,25 +1,17 @@
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FaRegCheckCircle } from "react-icons/fa";
-import axios from 'axios';
 
 const Message = ({ message, currentfriend, scrollRef, typingMessage }:any) => {
-     const { myInfo } = useSelector(state => state.auth);
+     const { myInfo } = useSelector((state:any) => state.auth);
 
      const [currentfriendimage, setcurrentfriendimage] = useState()
-     const [msg,setmsg] = useState(message);
+     const [msg] = useState(message);
 
      useEffect(() => {
-          // const img = await getImage(currentfriend.image)
           setcurrentfriendimage(currentfriend.image)
      }, [currentfriend])
-
-     const getImage = async (id:any) => {
-          const res = await axios.get(`https://looplink-chat-backend.onrender.com/api/messenger/?imageid=${id}`);
-          return res.data.imageURL;
-     }
-
      
 
      // console.log(myInfo)
@@ -43,7 +35,7 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }:any) => {
                                              </div>
                                         </div>
                                         <div className='time'>
-                                             {moment(m.createdAt).startOf('mini').fromNow()}
+                                             {moment(m.createdAt).startOf('minute').fromNow()}
                                         </div>
                                    </div> : <div ref={scrollRef} className='fd-message' key={index}>
                                         <div className='image-message-time'>
@@ -53,7 +45,7 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }:any) => {
                                                        <p className='message-text'> {m.message.text === '' ? <img src={m.message.image} /> : m.message.text}  </p>
                                                   </div>
                                                   <div className='time'>
-                                                       {moment(m.createdAt).startOf('mini').fromNow()}
+                                                       {moment(m.createdAt).startOf('minute').fromNow()}
                                                   </div>
                                              </div>
                                         </div>
@@ -61,7 +53,7 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }:any) => {
                          ) : <div className='friend_connect'>
                               <img src={currentfriendimage} alt='' />
                               <h3>{currentfriend.userName} Connect You </h3>
-                              <span> {moment(currentfriend.createdAt).startOf('mini').fromNow()} </span>
+                              <span> {moment(currentfriend.createdAt).startOf('minute').fromNow()} </span>
                          </div>
                     }
 

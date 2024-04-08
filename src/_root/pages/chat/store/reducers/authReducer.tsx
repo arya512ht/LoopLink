@@ -1,4 +1,4 @@
-import { REGISTER_FAIL,REGISTER_SUCCESS,SUCCESS_MESSAGE_CLEAR,ERROR_CLEAR,USER_LOGIN_FAIL,USER_LOGIN_SUCCESS,LOGOUT_SUCCESS } from "../types/authType";
+import { REGISTER_FAIL,REGISTER_SUCCESS,SUCCESS_MESSAGE_CLEAR,ERROR_CLEAR,USER_LOGIN_FAIL,USER_LOGIN_SUCCESS } from "../types/authType";
 import deCodeToken from 'jwt-decode';
 
 const authState = {
@@ -9,8 +9,8 @@ const authState = {
      myInfo : ''
 }
 
-const tokenDecode = (token) =>{
-     const tokenDecoded = deCodeToken(token);
+const tokenDecode = (token:any) =>{
+     const tokenDecoded:any = deCodeToken(token);
      const expTime = new Date(tokenDecoded.exp*1000);
      if(new Date() > expTime){
           return null;
@@ -30,7 +30,7 @@ if(getToken){
 }
 // console.log(getToken);
 
-export const authReducer = (state = authState, action) => {
+export const authReducer = (state = authState, action:any) => {
      const {payload,type} = action;
 
      if(type === REGISTER_FAIL || type === USER_LOGIN_FAIL){

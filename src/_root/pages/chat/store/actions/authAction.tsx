@@ -1,8 +1,8 @@
 import axios from 'axios';
 import {REGISTER_FAIL,REGISTER_SUCCESS,USER_LOGIN_SUCCESS,USER_LOGIN_FAIL} from "../types/authType";
 
-export const userRegister = (data) => {
-     return async (dispatch) => {
+export const userRegister = (data:any) => {
+     return async (dispatch:any) => {
 
         //   const config = {
         //        headers: {
@@ -10,7 +10,7 @@ export const userRegister = (data) => {
         //        } 
         //   }
           try{
-               const response = await axios.post('http://localhost:80/api/messenger/user-register',data);
+               const response = await axios.post('https://looplink-chat-backend.onrender.com/api/messenger/user-register',data);
                localStorage.setItem('authToken',response.data.token);
 
                dispatch({
@@ -21,7 +21,7 @@ export const userRegister = (data) => {
                     }
                })
 
-          } catch(error){
+          } catch(error:any){
                 dispatch({
                     type: REGISTER_FAIL,
                     payload:{
@@ -33,8 +33,8 @@ export const userRegister = (data) => {
      }
 }
 
-export const userLogin = (data) => {
-    return async (dispath) => {
+export const userLogin = (data:any) => {
+    return async (dispath:any) => {
 
         const config = {
             headers: {
@@ -54,7 +54,7 @@ export const userLogin = (data) => {
                     token: response.data.token
                 }
             })
-        } catch (error) {
+        } catch (error:any) {
             dispath({
                 type: USER_LOGIN_FAIL,
                 payload: {
@@ -65,7 +65,7 @@ export const userLogin = (data) => {
     }
 }
 
-export const userLogout = () => async(dispatch) => {
+export const userLogout = () => async(dispatch:any) => {
      try{
          const response = await axios.post('https://looplink-chat-backend.onrender.com/api/messenger/user-logout',{authToken:localStorage.getItem('authToken')});
          console.log(response)

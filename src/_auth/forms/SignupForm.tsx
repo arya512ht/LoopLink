@@ -38,7 +38,7 @@ const SignupForm = () => {
   // Handler
   const handleSignup = async (user: z.infer<typeof SignupValidation>) => {
     try {
-      const newUser = await createUserAccount(user);
+      const newUser:any = await createUserAccount(user);
 
       console.log(newUser)
 
@@ -60,7 +60,7 @@ const SignupForm = () => {
       await signInAccount({
         email: user.email,
         password: user.password,
-      }).then(()=>dispatch(userRegister(data))).catch(err=>{toast({ title: "Something went wrong. Please login your new account", });
+      }).then(()=>dispatch(userRegister(data))).catch(()=>{toast({ title: "Something went wrong. Please login your new account", });
 
       navigate("/sign-in");});
 

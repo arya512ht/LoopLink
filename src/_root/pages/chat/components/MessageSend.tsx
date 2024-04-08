@@ -1,5 +1,4 @@
-import React from 'react';
-import { FaPlusCircle, FaFileImage, FaGift, FaPaperPlane } from "react-icons/fa";
+import { FaFileImage, FaPaperPlane } from "react-icons/fa";
 
 const MessageSend = ({ inputHendle, newMessage, sendMessage, emojiSend, ImageSend }:any) => {
 

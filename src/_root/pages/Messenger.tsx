@@ -1,66 +1,57 @@
-import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
-import { FaEllipsisH, FaEdit, FaSistrix, FaSignOutAlt } from "react-icons/fa";
+import { useEffect, useState, useRef } from 'react';
+import {   FaSistrix } from "react-icons/fa";
 import ActiveFriend from './chat/components/ActiveFriend';
 import Friends from './chat/components/Friends';
 import RightSide from './chat/components/RightSide';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFriends, messageSend, getMessage, ImageMessageSend, seenMessage, updateMessage, getTheme, themeSet } from './chat/store/actions/messengerAction';
-import { userLogout } from './chat/store/actions/authAction';
+import { getFriends, messageSend, getMessage, ImageMessageSend, seenMessage, updateMessage, getTheme } from './chat/store/actions/messengerAction';
 
 import toast, { Toaster } from 'react-hot-toast';
 import { io } from 'socket.io-client';
 // import useSound from 'use-sound';
+// @ts-ignore
 import useSound from 'use-sound';
-import notificationSound from './chat/audio/notification.mp3';
-import sendingSound from './chat/audio/sending.mp3';
+// const notificationSound = require('./chat/audio/notification.mp3');
+// const sendingSound = require('./chat/audio/sending.mp3');
 
 const Messenger = () => {
 
-     const [notificationSPlay] = useSound(notificationSound);
-     const [sendingSPlay] = useSound(sendingSound);
+     // const [notificationSPlay] = useSound(notificationSound);
+     // const [sendingSPlay] = useSound(sendingSound);
      const [imageURL, setimageURL] = useState();
 
-     const scrollRef = useRef();
-     const socket = useRef();
+     const scrollRef:any = useRef();
+     const socket:any = useRef() ;
 
 
-     const { friends, message, mesageSendSuccess, message_get_success, themeMood, new_user_add } = useSelector(state => state.messenger);
-     const { myInfo } = useSelector(state => state.auth);
+     const { friends, message, mesageSendSuccess, message_get_success, new_user_add } = useSelector((state:any) => state.messenger);
+     const { myInfo } = useSelector((state:any) => state.auth);
      console.log(myInfo)
 
-     const [currentfriend, setCurrentFriend] = useState('');
+     const [currentfriend, setCurrentFriend] = useState<any>('');
      const [newMessage, setNewMessage] = useState('');
 
      const [activeUser, setActiveUser] = useState([]);
-     const [socketMessage, setSocketMessage] = useState('');
+     const [socketMessage, setSocketMessage] = useState<any>('');
      const [typingMessage, setTypingMessage] = useState('');
 
-     const getImage = async (id:any) => {
-          const res = await axios.get(`https://looplink-chat-backend.onrender.com/api/messenger/?imageid=${myInfo?.image}`);
-          return res.data.imageURL;
-     }
-
      useEffect(() => {
-          // console.log(myInfo)
-          // const res = await getImage(myInfo?.image);
-          // // console.log(res)
           setimageURL(myInfo.image);
 
           
      }, [myInfo])
 
      useEffect(() => {
-          socket.current = io('https://looplink-chat-socket.onrender.com');
-          socket.current.on('getMessage', (data) => {
+          socket.current = io('https://looplink-chat-socket.onrender.com') ;
+          socket.current.on('getMessage', (data:any) => {
                setSocketMessage(data);
           })
 
-          socket.current.on('typingMessageGet', (data) => {
+          socket.current.on('typingMessageGet', (data:any) => {
                setTypingMessage(data);
           })
 
-          socket.current.on('msgSeenResponse', msg => {
+          socket.current.on('msgSeenResponse', (msg:any) => {
                dispatch({
                     type: 'SEEN_MESSAGE',
                     payload: {
@@ -69,7 +60,7 @@ const Messenger = () => {
                })
           })
 
-          socket.current.on('msgDelivaredResponse', msg => {
+          socket.current.on('msgDelivaredResponse', (msg:any) => {
                dispatch({
                     type: 'DELIVARED_MESSAGE',
                     payload: {
@@ -78,7 +69,7 @@ const Messenger = () => {
                })
           })
 
-          socket.current.on('seenSuccess', data => {
+          socket.current.on('seenSuccess', (data:any) => {
                dispatch({
                     type: 'SEEN_ALL',
                     payload: data
@@ -119,12 +110,12 @@ const Messenger = () => {
      }, []);
 
      useEffect(() => {
-          socket.current.on('getUser', (users) => {
-               const filterUser = users.filter(u => u.userId !== myInfo.id)
+          socket.current.on('getUser', (users:any) => {
+               const filterUser = users.filter((u:any) => u.userId !== myInfo.id)
                setActiveUser(filterUser);
           })
 
-          socket.current.on('new_user_add', data => {
+          socket.current.on('new_user_add', (data:any) => {
                dispatch({
                     type: 'NEW_USER_ADD',
                     payload: {
@@ -139,7 +130,7 @@ const Messenger = () => {
 
      useEffect(() => {
           if (socketMessage && socketMessage.senderId !== currentfriend.id && socketMessage.reseverId === myInfo.id) {
-               notificationSPlay();
+               // notificationSPlay();
                toast.success(`${socketMessage.senderName} Send a New Message`)
                dispatch(updateMessage(socketMessage));
                socket.current.emit('delivaredMessage', socketMessage);
@@ -157,7 +148,7 @@ const Messenger = () => {
 
 
 
-     const inputHendle = (e) => {
+     const inputHendle = (e:any) => {
           setNewMessage(e.target.value);
 
           socket.current.emit('typingMessage', {
@@ -168,9 +159,9 @@ const Messenger = () => {
 
      }
 
-     const sendMessage = (e) => {
+     const sendMessage = (e:any) => {
           e.preventDefault();
-          sendingSPlay();
+          // sendingSPlay();
           const data = {
                senderName: myInfo.userName,
                reseverId: currentfriend.id,
@@ -259,7 +250,7 @@ const Messenger = () => {
      }, [message]);
 
 
-     const emojiSend = (emu) => {
+     const emojiSend = (emu:any) => {
           setNewMessage(`${newMessage}` + emu);
           socket.current.emit('typingMessage', {
                senderId: myInfo.id,
@@ -268,10 +259,10 @@ const Messenger = () => {
           })
      }
 
-     const ImageSend = (e) => {
+     const ImageSend = (e:any) => {
 
           if (e.target.files.length !== 0) {
-               sendingSPlay();
+               // sendingSPlay();
                const imagename = e.target.files[0].name;
                const newImageName = Date.now() + imagename;
 
@@ -299,21 +290,21 @@ const Messenger = () => {
 
      }
 
-     const [hide, setHide] = useState(true);
+     // const [hide, setHide] = useState(true);
 
-     const logout = () => {
-          dispatch(userLogout());
-          socket.current.emit('logout', myInfo.id);
-     }
+     // const logout = () => {
+     //      dispatch(userLogout());
+     //      socket.current.emit('logout', myInfo.id);
+     // }
 
      useEffect(() => {
           dispatch(getTheme());
      }, []);
 
-     const search = (e) => {
+     const search = (e:any) => {
 
-          const getFriendClass = document.getElementsByClassName('hover-friend');
-          const frienNameClass = document.getElementsByClassName('Fd_name');
+          const getFriendClass:any = document.getElementsByClassName('hover-friend');
+          const frienNameClass:any = document.getElementsByClassName('Fd_name');
           for (var i = 0; i < getFriendClass.length, i < frienNameClass.length; i++) {
                let text = frienNameClass[i].innerText.toLowerCase();
                if (text.indexOf(e.target.value.toLowerCase()) > -1) {
@@ -372,7 +363,7 @@ const Messenger = () => {
 
                               <div className='friends'>
                                    {
-                                        friends && friends.length > 0 ? friends.map((fd) => <div onClick={() => { setCurrentFriend(fd.fndInfo); var div = document.querySelector('.col-9'); div.style.display = window.screen.width <= 850 && 'block'; div = document.querySelector('.col-3'); div.style.display = window.screen.width <= 850 && 'none'; }} className={currentfriend.id === fd.fndInfo.id ? 'hover-friend active' : 'hover-friend'}>
+                                        friends && friends.length > 0 ? friends.map((fd:any) => <div onClick={() => { setCurrentFriend(fd.fndInfo); var div:any = document.querySelector('.col-9'); div.style.display = window.screen.width <= 850 && 'block'; div = document.querySelector('.col-3'); div.style.display = window.screen.width <= 850 && 'none'; }} className={currentfriend.id === fd.fndInfo.id ? 'hover-friend active' : 'hover-friend'}>
                                              <Friends activeUser={activeUser} myId={myInfo.id} friend={fd} />
                                         </div>) : 'No Friend'
                                    }

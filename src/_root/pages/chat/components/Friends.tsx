@@ -37,7 +37,7 @@ const Friends = (props:any) => {
                               {
                                    msgInfo && msgInfo.message.text ? <span className={msgInfo?.senderId !== myId && msgInfo?.status !== undefined && msgInfo.status !== 'seen' ? 'unseen_message ' : ''}>{msgInfo.message.text.slice(0, 10)}</span> : msgInfo && msgInfo.message.image ? <span>Sent A image &nbsp;</span> : <span>Connect You &nbsp;</span>
                               }
-                              <span className='time1'>&nbsp;{msgInfo ? moment(msgInfo.createdAt).startOf('mini').fromNow() : moment(fndInfo.createdAt).startOf('mini').fromNow()}</span>
+                              <span className='time1'>&nbsp;{msgInfo ? moment(msgInfo.createdAt).startOf("minute").fromNow() : moment(fndInfo.createdAt).startOf('minute').fromNow()}</span>
 
                          </div>
                     </div>

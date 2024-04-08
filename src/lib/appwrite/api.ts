@@ -1,9 +1,6 @@
 import { ID, Query } from "appwrite";
-import { useDispatch } from 'react-redux';
-import { userRegister } from '@/_root/pages/chat/store/actions/authAction';
 import { appwriteConfig, account, databases, storage, avatars } from "./config";
 import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "@/types";
-import axios from "axios";
 
 // ============================================================
 // AUTH

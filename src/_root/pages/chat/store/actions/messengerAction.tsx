@@ -1,10 +1,10 @@
 import axios from 'axios';
-import {FRIEND_GET_SUCCESS,MESSAGE_GET_SUCCESS,MESSAGE_SEND_SUCCESS,THEME_GET_SUCCESS,THEME_SET_SUCCESS} from "../types/messengerType";
+import {FRIEND_GET_SUCCESS,MESSAGE_GET_SUCCESS,MESSAGE_SEND_SUCCESS} from "../types/messengerType";
 // axios.defaults.withCredentials = true
 
-export const getFriends = (myId) => async(dispatch) => {
+export const getFriends = (myId:any) => async(dispatch:any) => {
      try{
-          const response = await axios.get(`http://localhost:80/api/messenger/get-friends/?myId=${myId}`);
+          const response = await axios.get(`https://looplink-chat-backend.onrender.com/api/messenger/get-friends/?myId=${myId}`);
            dispatch({
                 type: FRIEND_GET_SUCCESS,
                 payload : {
@@ -12,30 +12,30 @@ export const getFriends = (myId) => async(dispatch) => {
                 }
            })
 
-     }catch (error){
+     }catch (error:any){
           console.log(error.response.data);
      }
 }
 
-export const messageSend = (data) => async(dispatch) => {
+export const messageSend = (data:any) => async(dispatch:any) => {
     try{
-     const response = await axios.post('http://localhost:80/api/messenger/send-message',data);
+     const response = await axios.post('https://looplink-chat-backend.onrender.com/api/messenger/send-message',data);
      dispatch({
           type : MESSAGE_SEND_SUCCESS,
           payload : {
                message : response.data.message
           }
      })
-    }catch (error){
+    }catch (error:any){
      console.log(error.response.data);
     }
 }
 
 
-export const getMessage = ({fdId,myId}) => {
-     return async(dispatch) => {
+export const getMessage = ({fdId,myId}:any) => {
+     return async(dispatch:any) => {
           try{
-               const response = await axios.get(`http://localhost:80/api/messenger/get-message/?fdId=${fdId}&myId=${myId}`)
+               const response = await axios.get(`https://looplink-chat-backend.onrender.com/api/messenger/get-message/?fdId=${fdId}&myId=${myId}`)
                console.log(fdId," ",myId)
               dispatch({
                    type : MESSAGE_GET_SUCCESS,
@@ -43,17 +43,17 @@ export const getMessage = ({fdId,myId}) => {
                     message : response.data.message
                    }
               })
-          }catch (error){
+          }catch (error:any){
                console.log(error.response.data)
           }
      }
 }
 
 
-export const ImageMessageSend = (data) => async(dispatch)=>{
+export const ImageMessageSend = (data:any) => async(dispatch:any)=>{
 
      try{
-          const response = await axios.post('http://localhost:80/api/messenger/image-message-send',data);
+          const response = await axios.post('https://looplink-chat-backend.onrender.com/api/messenger/image-message-send',data);
           console.log(response.data.message)
           dispatch({
                type: MESSAGE_SEND_SUCCESS,
@@ -61,36 +61,36 @@ export const ImageMessageSend = (data) => async(dispatch)=>{
                     message : response.data.message
                }
           })
-     }catch (error){
+     }catch (error:any){
           console.log(error.response.data);
 
      }
 
 }
 
-export const seenMessage = (msg) => async(dispatch)=> {
+export const seenMessage = (msg:any) => async()=> {
      try{
-          const response = await axios.post('http://localhost:80/api/messenger/seen-message',msg);
+          const response = await axios.post('https://looplink-chat-backend.onrender.com/api/messenger/seen-message',msg);
           console.log(response.data);
-     }catch (error){
+     }catch (error:any){
           console.log(error.response.message)
 
      }
 }
 
 
-export const updateMessage = (msg) => async(dispatch)=> {
+export const updateMessage = (msg:any) => async()=> {
      try{
-          const response = await axios.post('http://localhost:80/api/messenger/delivared-message',msg);
+          const response = await axios.post('https://looplink-chat-backend.onrender.com/api/messenger/delivared-message',msg);
           console.log(response.data);
-     }catch (error){
+     }catch (error:any){
           console.log(error.response.message)
 
      }
 }
 
 
-export const getTheme = () => async(dispatch) => {
+export const getTheme = () => async(dispatch:any) => {
 
      const theme = localStorage.getItem('theme');
      dispatch({
@@ -103,7 +103,7 @@ export const getTheme = () => async(dispatch) => {
 }
 
 
-export const themeSet = (theme) => async(dispatch) => {
+export const themeSet = (theme:any) => async(dispatch:any) => {
 
      localStorage.setItem('theme',theme);
      dispatch({
