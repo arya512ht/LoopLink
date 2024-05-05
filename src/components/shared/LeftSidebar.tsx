@@ -82,10 +82,12 @@ const LeftSidebar = () => {
             </NavLink>
           </li>
           <li className="leftsidebar-link">
-            <button className="flex gap-4 items-center p-4">
-              <img src="/assets/icons/song-icon.png" alt="Song" width={30}/>
-              Song
-            </button>
+            <Link to='https://loopmusic-two.vercel.app/'>
+              <button className="flex gap-4 items-center p-4">
+                <img src="/assets/icons/song-icon.png" alt="Song" width={30} />
+                Song
+              </button>
+            </Link>
           </li>
           <li className="leftsidebar-link">
             <button className="flex gap-4 items-center p-4">
