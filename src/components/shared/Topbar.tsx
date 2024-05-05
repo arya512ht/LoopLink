@@ -37,13 +37,14 @@ const Topbar = () => {
               <img src="/assets/icons/message-icon-violet.png" alt="Message" width={30} />
             </Button>
           </Link>
-          <Button
-            variant="ghost"
-            className="shad-button_ghost"
-          // onClick={() => signOut()}
-          >
-            <img src="/assets/icons/song-icon-violet.png" alt="Song" width={30} />
-          </Button>
+          <Link to='https://loopmusic-two.vercel.app/'>
+            <Button
+              variant="ghost"
+              className="shad-button_ghost"
+            >
+              <img src="/assets/icons/song-icon-violet.png" alt="Song" width={30} />
+            </Button>
+          </Link>
           <Button
             variant="ghost"
             className="shad-button_ghost"
