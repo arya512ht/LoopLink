@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import loader from "../../loader.gif"
 
 import {
   Form,
@@ -44,6 +45,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
   });
 
   const [generatedCaptions, setGeneratedCaptions] = useState<any[]>([]);
+  const[generatingCaptions,setGeneratingCaptions]=useState<any>(false);
   const [locationSuggestions, setLocationSuggestions] = useState([]); // State variable for location suggestions
   const [loadingLocations, setLoadingLocations] = useState(false); // State variable to track loading state
 
@@ -92,12 +94,14 @@ const PostForm = ({ post, action }: PostFormProps) => {
   };
 
   const generateCaptions = async (imageFile: File) => {
+    setGeneratingCaptions(true);
     try {
       try {
         let formData = new FormData()
         formData.append('file', imageFile)
         const response = await axios.post("https://image-caption-generator-brb5.onrender.com/image", formData);
         setGeneratedCaptions(response.data.captions);
+        setGeneratingCaptions(false);
       } catch (error) {
         console.log(error);
         toast({
@@ -236,6 +240,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                 >
                   Generate Captions
                 </Button>
+                {generatingCaptions && <div><img src={loader} alt="loading..." /></div>}
                 <div className="generated-captions">
                   {generatedCaptions.map((caption, index) => (
                     <div key={index} className="caption-item">
