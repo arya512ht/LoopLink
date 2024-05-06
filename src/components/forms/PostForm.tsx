@@ -96,7 +96,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
       try {
         let formData = new FormData()
         formData.append('file', imageFile)
-        const response = await axios.post("https://looplink-image-generator.linkin.tw/image", formData);
+        const response = await axios.post("https://image-caption-generator-brb5.onrender.com/image", formData);
         setGeneratedCaptions(response.data.captions);
       } catch (error) {
         console.log(error);
